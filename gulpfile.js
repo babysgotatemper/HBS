@@ -1,6 +1,6 @@
 var gulp = require ('gulp'),
-    del = require('del'),
     hb = require('gulp-hb'),
+    del = require('del'),
     livereload = require('gulp-livereload'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -16,18 +16,18 @@ gulp.task('express', function () {
     app.use(express.static(__dirname + '/dist', {
         'extensions': ['html']
     })); // _dirname is the root - expects index.html at root - defined in dist folder
-    app.listen(5500);
+    app.listen(5000);
 });
 
 // HANDLEBARS
 // make data and partials available in project
 // compile handlebars templates - place in dist as .html files
 gulp.task('pages', function () {
-    del(['dist/**/*.html'], function () {
+    del('dist/**/*.html', function () {
         gulp.src('app/pages/**/*.hbs')
             .pipe(hb({
                 data: 'app/data/*.json',
-                partials: 'app/pages/*.hbs'
+                partials: 'app/partials/*.hbs'
             }))
             .pipe(rename(function (path) {
                 path.extname = '.html';
@@ -39,8 +39,8 @@ gulp.task('pages', function () {
 
 //assets
 gulp.task('assets', function () {
-    del(['dist/assets/**/*'], function () {
-        return gulp.src(['app/assets/**/*'])
+    del('dist/assets/**/*', function () {
+        return gulp.src('app/assets/**/*')
             .pipe(gulp.dest('dist/assets/'))
             .pipe(livereload());
     });
@@ -48,10 +48,12 @@ gulp.task('assets', function () {
 
 //images
 gulp.task('images', function () {
-    del(['dist/images/**/*'], function () {
-        return gulp.src(['app/images/**/*'])
+    del('dist/img/**/*', function () {
+        return gulp.src('app/images/**/*')
             .pipe(gulp.dest('dist/img/'))
     });
+    return gulp.src('app/images/**/*')
+        .pipe(gulp.dest('dist/img/'))
 });
 
 //scripts
@@ -69,7 +71,6 @@ gulp.task('styles', function () {
         .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {
             cascade: true
         }))
-        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('dist/css'))
         .pipe(livereload());
 });
