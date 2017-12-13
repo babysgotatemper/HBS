@@ -7,7 +7,7 @@ var gulp = require ('gulp'),
     rename = require('gulp-rename');
 
 // express server
-// view on host computer -> localhost:4000
+// view on host computer -> localhost:5000
 // view on mobile device -> in command line of computer run ifconfig, look for en0, en1 etc and "inet" number. Use this number plus port
 // e.g. 00.0.00.00:4000
 gulp.task('express', function () {
