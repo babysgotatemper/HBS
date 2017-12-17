@@ -4,6 +4,8 @@ var gulp = require ('gulp'),
     livereload = require('gulp-livereload'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
+    gutil = require('gulp-util'),
+    ftp = require('gulp-ftp'),
     rename = require('gulp-rename');
 
 // express server
@@ -95,4 +97,25 @@ gulp.task('default', ['build', 'express', 'watch'], function () {
 
 gulp.task('build', ['assets', 'images', 'scripts', 'styles', 'pages'], function () {
     console.log('Your development environment has been set up. Run gulp to watch and build your project!');
+});
+
+gulp.task('deploy', function () {
+    return gulp.src('dist/**/*')
+        .pipe(ftp({
+            host: 'special.test.umh.ua',
+            user: 'r.semak',
+            pass: 'GotoroleS',
+            remotePath: '/2017/HBS'
+        }))
+        .pipe(gutil.noop());
+});
+gulp.task('deployTest', function () {
+    return gulp.src('dist/**/*')
+        .pipe(ftp({
+            host: 'special.test.umh.ua',
+            user: 'r.semak',
+            pass: 'GotoroleS',
+            remotePath: '/2017/HBS/test'
+        }))
+        .pipe(gutil.noop());
 });
